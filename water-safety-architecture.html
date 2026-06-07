@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Powered National Water Safety System — Sri Lanka</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #020B18;
+    --deep: #040F1F;
+    --panel: #071524;
+    --border: #0B3D6E;
+    --glow: #00CFFF;
+    --glow2: #00FF9F;
+    --warn: #FF6B35;
+    --danger: #FF2D55;
+    --gold: #FFD700;
+    --text: #C8E6F7;
+    --dim: #4A7090;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 13px;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(180deg, #000C1A 0%, var(--panel) 100%);
+    border-bottom: 2px solid var(--glow);
+    padding: 28px 40px 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 60px rgba(0,207,255,0.15);
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,207,255,0.04) 40px),
+                repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,207,255,0.04) 40px);
+  }
+  .header h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--glow);
+    text-shadow: 0 0 20px rgba(0,207,255,0.6);
+    letter-spacing: 2px;
+    position: relative;
+  }
+  .header .subtitle {
+    font-size: 12px;
+    color: var(--dim);
+    margin-top: 6px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(0,207,255,0.1);
+    border: 1px solid var(--glow);
+    color: var(--glow);
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-top: 10px;
+    position: relative;
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    padding: 30px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    color: var(--glow);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* LAYER CARD */
+  .layer {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .layer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .layer.l1::before { background: linear-gradient(90deg, #1a6b8a, var(--glow), #1a6b8a); }
+  .layer.l2::before { background: linear-gradient(90deg, #1a5c4a, var(--glow2), #1a5c4a); }
+  .layer.l3::before { background: linear-gradient(90deg, #5c4a1a, var(--gold), #5c4a1a); }
+  .layer.l4::before { background: linear-gradient(90deg, #5c2a1a, var(--warn), #5c2a1a); }
+  .layer.l5::before { background: linear-gradient(90deg, #5c1a2a, var(--danger), #5c1a2a); }
+  .layer.l6::before { background: linear-gradient(90deg, #2a1a5c, #AA88FF, #2a1a5c); }
+  .layer.l7::before { background: linear-gradient(90deg, #1a3a5c, #44AAFF, #1a3a5c); }
+
+  .layer-header {
+    padding: 10px 18px;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .layer-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    font-weight: 900;
+    opacity: 0.2;
+  }
+  .l1 .layer-num { color: var(--glow); }
+  .l2 .layer-num { color: var(--glow2); }
+  .l3 .layer-num { color: var(--gold); }
+  .l4 .layer-num { color: var(--warn); }
+  .l5 .layer-num { color: var(--danger); }
+  .l6 .layer-num { color: #AA88FF; }
+  .l7 .layer-num { color: #44AAFF; }
+
+  .layer-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  .l1 .layer-title { color: var(--glow); }
+  .l2 .layer-title { color: var(--glow2); }
+  .l3 .layer-title { color: var(--gold); }
+  .l4 .layer-title { color: var(--warn); }
+  .l5 .layer-title { color: var(--danger); }
+  .l6 .layer-title { color: #AA88FF; }
+  .l7 .layer-title { color: #44AAFF; }
+
+  .layer-body {
+    padding: 16px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* NODE CHIP */
+  .node {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 7px 12px;
+    position: relative;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .node:hover { transform: translateY(-2px); filter: brightness(1.3); }
+
+  .l1 .node { border-color: rgba(0,207,255,0.3); }
+  .l2 .node { border-color: rgba(0,255,159,0.3); }
+  .l3 .node { border-color: rgba(255,215,0,0.3); }
+  .l4 .node { border-color: rgba(255,107,53,0.3); }
+  .l5 .node { border-color: rgba(255,45,85,0.3); }
+  .l6 .node { border-color: rgba(170,136,255,0.3); }
+  .l7 .node { border-color: rgba(68,170,255,0.3); }
+
+  .node-icon { font-size: 16px; }
+  .node-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .node-sub {
+    font-size: 9px;
+    color: var(--dim);
+    white-space: nowrap;
+  }
+
+  /* PULSE DOT */
+  .pulse {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    position: absolute;
+    top: 6px; right: 6px;
+    animation: pulse 2s infinite;
+  }
+  .pulse.cyan { background: var(--glow); box-shadow: 0 0 6px var(--glow); }
+  .pulse.green { background: var(--glow2); box-shadow: 0 0 6px var(--glow2); }
+  .pulse.gold { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(1.5); }
+  }
+
+  /* FLOW ARROWS between layers */
+  .flow-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 6px 0;
+    position: relative;
+  }
+  .flow-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 2px;
+    font-family: 'Orbitron', monospace;
+  }
+  .arrow-down {
+    font-size: 16px;
+    color: var(--glow);
+    text-shadow: 0 0 10px var(--glow);
+    animation: floatDown 1.5s infinite;
+  }
+  @keyframes floatDown {
+    0%,100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(3px); opacity: 1; }
+  }
+
+  /* AI SECTION */
+  .ai-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .ai-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .ai-card-header {
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.4);
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--glow);
+    border-bottom: 1px solid var(--border);
+  }
+  .ai-card-body { padding: 14px; }
+
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .pipe-step {
+    background: rgba(0,207,255,0.08);
+    border: 1px solid rgba(0,207,255,0.25);
+    border-radius: 3px;
+    padding: 8px 11px;
+    text-align: center;
+    min-width: 80px;
+  }
+  .pipe-step .ps-icon { font-size: 18px; }
+  .pipe-step .ps-label { font-size: 9px; color: var(--glow); margin-top: 3px; font-weight: 600; }
+  .pipe-arrow {
+    color: var(--glow);
+    font-size: 14px;
+    padding: 0 4px;
+    opacity: 0.5;
+  }
+
+  /* EMERGENCY FLOW */
+  .emer-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .emer-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 0;
+    border-left: 2px solid var(--border);
+    padding-left: 16px;
+    position: relative;
+  }
+  .emer-step::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--glow);
+    box-shadow: 0 0 8px var(--glow);
+  }
+  .emer-step.warn-step::before { background: var(--warn); box-shadow: 0 0 8px var(--warn); }
+  .emer-step.danger-step::before { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+  .emer-step.green-step::before { background: var(--glow2); box-shadow: 0 0 8px var(--glow2); }
+
+  .es-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--dim);
+    min-width: 22px;
+  }
+  .es-label { font-size: 12px; color: var(--text); font-weight: 600; }
+  .es-sub { font-size: 10px; color: var(--dim); }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .stat-card.s1::after { background: var(--danger); }
+  .stat-card.s2::after { background: var(--warn); }
+  .stat-card.s3::after { background: var(--glow); }
+  .stat-card.s4::after { background: var(--glow2); }
+
+  .stat-val {
+    font-family: 'Orbitron', monospace;
+    font-size: 26px;
+    font-weight: 900;
+  }
+  .s1 .stat-val { color: var(--danger); }
+  .s2 .stat-val { color: var(--warn); }
+  .s3 .stat-val { color: var(--glow); }
+  .s4 .stat-val { color: var(--glow2); }
+
+  .stat-label { font-size: 10px; color: var(--dim); margin-top: 4px; letter-spacing: 1px; }
+
+  /* TECH STACK */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  .tech-item {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .tech-item .t-icon { font-size: 20px; }
+  .tech-item .t-name { font-size: 10px; color: var(--glow); margin-top: 4px; font-weight: 600; }
+  .tech-item .t-cat { font-size: 9px; color: var(--dim); }
+
+  /* PCB section */
+  .pcb-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .pcb-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .pcb-header {
+    padding: 8px 14px;
+    background: rgba(0,255,159,0.08);
+    border-bottom: 1px solid rgba(0,255,159,0.2);
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    color: var(--glow2);
+    letter-spacing: 2px;
+  }
+  .bom-table { width: 100%; border-collapse: collapse; }
+  .bom-table th {
+    padding: 6px 10px;
+    text-align: left;
+    font-size: 9px;
+    color: var(--dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .bom-table td {
+    padding: 6px 10px;
+    font-size: 11px;
+    border-bottom: 1px solid rgba(11,61,110,0.3);
+  }
+  .bom-table td:last-child { color: var(--gold); text-align: right; }
+  .bom-table tr:last-child td { border-bottom: none; font-weight: 700; color: var(--glow2); }
+
+  /* COST TABLE */
+  .cost-table { width: 100%; border-collapse: collapse; }
+  .cost-table th {
+    padding: 7px 12px;
+    background: rgba(0,0,0,0.4);
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    color: var(--glow);
+    letter-spacing: 2px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .cost-table td {
+    padding: 7px 12px;
+    font-size: 11px;
+    border-bottom: 1px solid rgba(11,61,110,0.2);
+  }
+  .cost-table td.money { color: var(--gold); font-family: 'Orbitron', monospace; font-size: 10px; }
+  .cost-table tr:hover td { background: rgba(0,207,255,0.04); }
+
+  /* PHASE ROADMAP */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .phase-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .phase-header {
+    padding: 10px 14px;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  .ph1 .phase-header { background: rgba(0,207,255,0.1); color: var(--glow); border-bottom: 1px solid rgba(0,207,255,0.2); }
+  .ph2 .phase-header { background: rgba(255,215,0,0.1); color: var(--gold); border-bottom: 1px solid rgba(255,215,0,0.2); }
+  .ph3 .phase-header { background: rgba(0,255,159,0.1); color: var(--glow2); border-bottom: 1px solid rgba(0,255,159,0.2); }
+  .phase-body { padding: 12px 14px; }
+  .phase-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 11px;
+    border-bottom: 1px solid rgba(11,61,110,0.2);
+  }
+  .phase-item:last-child { border-bottom: none; }
+  .phase-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .ph1 .phase-dot { background: var(--glow); }
+  .ph2 .phase-dot { background: var(--gold); }
+  .ph3 .phase-dot { background: var(--glow2); }
+  .phase-tag {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-left: auto;
+    font-family: 'Orbitron', monospace;
+    flex-shrink: 0;
+  }
+  .ph1 .phase-tag { background: rgba(0,207,255,0.12); color: var(--glow); }
+  .ph2 .phase-tag { background: rgba(255,215,0,0.12); color: var(--gold); }
+  .ph3 .phase-tag { background: rgba(0,255,159,0.12); color: var(--glow2); }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--dim);
+    font-size: 10px;
+    letter-spacing: 2px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+
+  /* SCAN LINE ANIMATION */
+  @keyframes scan {
+    0% { top: -100%; }
+    100% { top: 200%; }
+  }
+  .scanline {
+    position: fixed;
+    left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(180deg, transparent, rgba(0,207,255,0.04), transparent);
+    pointer-events: none;
+    animation: scan 6s linear infinite;
+    z-index: 999;
+  }
+</style>
+</head>
+<body>
+
+<div class="scanline"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>🌊 AI-POWERED NATIONAL WATER SAFETY SYSTEM</h1>
+  <div class="subtitle">Sri Lanka · Drowning Prevention &amp; Emergency Response · National Architecture</div>
+  <div class="badge">GOVERNMENT-GRADE · CLASSIFIED: PUBLIC SAFETY</div>
+</div>
+
+<div class="main">
+
+  <!-- STATS -->
+  <div>
+    <div class="section-label">◈ NATIONAL PROBLEM OVERVIEW</div>
+    <div class="stats-row">
+      <div class="stat-card s1">
+        <div class="stat-val">~3,200</div>
+        <div class="stat-label">Annual Drowning Deaths<br>in Sri Lanka</div>
+      </div>
+      <div class="stat-card s2">
+        <div class="stat-val">1,800+</div>
+        <div class="stat-label">Unmonitored Water<br>Hazard Zones</div>
+      </div>
+      <div class="stat-card s3">
+        <div class="stat-val">&lt; 3 min</div>
+        <div class="stat-label">Target Emergency<br>Response Time</div>
+      </div>
+      <div class="stat-card s4">
+        <div class="stat-val">70%</div>
+        <div class="stat-label">Estimated Deaths<br>Preventable</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SYSTEM ARCHITECTURE LAYERS -->
+  <div>
+    <div class="section-label">◈ ENTERPRISE ARCHITECTURE — 7-LAYER SYSTEM DESIGN</div>
+
+    <!-- LAYER 1 -->
+    <div class="layer l1">
+      <div class="layer-header">
+        <div class="layer-num">01</div>
+        <div>
+          <div class="layer-title">PHYSICAL INFRASTRUCTURE LAYER</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:2px;">Deployment Zones across Sri Lanka</div>
+        </div>
+      </div>
+      <div class="layer-body">
+        <div class="node"><span class="node-icon">🏖️</span><div><div class="node-label">Beach Zones</div><div class="node-sub">Negombo · Kalpitiya · Unawatuna</div></div></div>
+        <div class="node"><span class="node-icon">🌊</span><div><div class="node-label">River Networks</div><div class="node-sub">Mahaweli · Kelani · Kalu</div></div></div>
+        <div class="node"><span class="node-icon">💧</span><div><div class="node-label">Reservoirs</div><div class="node-sub">Parakrama Samudra · Victoria</div></div></div>
+        <div class="node"><span class="node-icon">🏞️</span><div><div class="node-label">Waterfalls</div><div class="node-sub">Dunhinda · Ramboda · Baker's</div></div></div>
+        <div class="node"><span class="node-icon">🌴</span><div><div class="node-label">Tourist Water Zones</div><div class="node-sub">High-Traffic Seasonal Sites</div></div></div>
+        <div class="node"><span class="node-icon">🏞️</span><div><div class="node-label">Lakes &amp; Lagoons</div><div class="node-sub">Beira · Nuwara Wewa · Batticaloa</div></div></div>
+      </div>
+    </div>
+
+    <div class="flow-connector">
+      <div class="flow-line"></div>
+      <div class="flow-arrow"><span class="arrow-down">▼</span> DATA CAPTURE</div>
+      <div class="flow-line"></div>
+    </div>
+
+    <!-- LAYER 2 -->
+    <div class="layer l2">
+      <div class="layer-header">
+        <div class="layer-num">02</div>
+        <div>
+          <div class="layer-title">SMART IoT DEVICE LAYER</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:2px;">Edge Hardware &amp; Smart Safety Pole Components</div>
+        </div>
+      </div>
+      <div class="layer-body">
+        <div class="node"><span class="node-icon">📷</span><div><div class="node-label">AI Camera Array</div><div class="node-sub">4K PTZ + IR Night Vision</div></div><div class="pulse green"></div></div>
+        <div class="node"><span class="node-icon">🔲</span><div><div class="node-label">ESP32-S3 MCU</div><div class="node-sub">Dual-Core 240MHz + WiFi/BT</div></div></div>
+        <div class="node"><span class="node-icon">📡</span><div><div class="node-label">SIM7600 4G Module</div><div class="node-sub">LTE-A · GNSS Built-In</div></div><div class="pulse cyan"></div></div>
+        <div class="node"><span class="node-icon">🛰️</span><div><div class="node-label">GPS Module</div><div class="node-sub">NEO-M8N · ±1.5m Accuracy</div></div></div>
+        <div class="node"><span class="node-icon">📻</span><div><div class="node-label">LoRa Module</div><div class="node-sub">SX1276 · 915MHz · 15km Range</div></div></div>
+        <div class="node"><span class="node-icon">☀️</span><div><div class="node-label">Solar Panel</div><div class="node-sub">200W Monocrystalline</div></div></div>
+        <div class="node"><span class="node-icon">🔋</span><div><div class="node-label">LiFePO4 Battery</div><div class="node-sub">100Ah · 48h Backup</div></div></div>
+        <div class="node"><span class="node-icon">🔊</span><div><div class="node-label">Siren + Warning Light</div><div class="node-sub">120dB · Strobe Flash</div></div></div>
+        <div class="node"><span class="node-icon">🆘</span><div><div class="node-label">SOS Button</div><div class="node-sub">Vandal-Proof · IP68</div></div></div>
+        <div class="node"><span class="node-icon">🌡️</span><div><div class="node-label">Environmental Sensors</div><div class="node-sub">Temp · Humidity · Water Level</div></div></div>
+        <div class="node"><span class="node-icon">🌊</span><div><div class="node-label">Wave &amp; Tide Sensor</div><div class="node-sub">Ultrasonic Distance</div></div></div>
+        <div class="node"><span class="node-icon">💨</span><div><div class="node-label">Weather Station</div><div class="node-sub">Wind · Rain · Pressure</div></div></div>
+      </div>
+    </div>
+
+    <div class="flow-connector">
+      <div class="flow-line"></div>
+      <div class="flow-arrow"><span class="arrow-down">▼</span> TRANSMISSION</div>
+      <div class="flow-line"></div>
+    </div>
+
+    <!-- LAYER 3 -->
+    <div class="layer l3">
+      <div class="layer-header">
+        <div class="layer-num">03</div>
+        <div>
+          <div class="layer-title">COMMUNICATION NETWORK LAYER</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:2px;">Multi-Protocol Redundant Connectivity</div>
+        </div>
+      </div>
+      <div class="layer-body">
+        <div class="node"><span class="node-icon">📶</span><div><div class="node-label">LoRaWAN Network</div><div class="node-sub">Primary IoT Mesh · Low-Power</div></div><div class="pulse gold"></div></div>
+        <div class="node"><span class="node-icon">📱</span><div><div class="node-label">4G LTE / GSM</div><div class="node-sub">Dialog · SLT · Hutch Backup</div></div><div class="pulse cyan"></div></div>
+        <div class="node"><span class="node-icon">🚀</span><div><div class="node-label">5G (Urban Zones)</div><div class="node-sub">Colombo · Kandy · Galle</div></div></div>
+        <div class="node"><span class="node-icon">🔌</span><div><div class="node-label">Fiber Backhaul</div><div class="node-sub">Core Cities &amp; Hubs</div></div></div>
+        <div class="node"><span class="node-icon">🛰️</span><div><div class="node-label">Satellite Fallback</div><div class="node-sub">Remote / Disaster Zones</div></div></div>
+        <div class="node"><span class="node-icon">🔐</span><div><div class="node-label">MQTT over TLS</div><div class="node-sub">Encrypted IoT Protocol</div></div></div>
+      </div>
+    </div>
+
+    <div class="flow-connector">
+      <div class="flow-line"></div>
+      <div class="flow-arrow"><span class="arrow-down">▼</span> LOCAL AI PROCESSING</div>
+      <div class="flow-line"></div>
+    </div>
+
+    <!-- LAYER 4 -->
+    <div class="layer l4">
+      <div class="layer-header">
+        <div class="layer-num">04</div>
+        <div>
+          <div class="layer-title">EDGE COMPUTING LAYER</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:2px;">On-Site AI Inference — Sub-100ms Latency</div>
+        </div>
+      </div>
+      <div class="layer-body">
+        <div class="node"><span class="node-icon">🧠</span><div><div class="node-label">NVIDIA Jetson Orin NX</div><div class="node-sub">100 TOPS AI Performance</div></div><div class="pulse cyan"></div></div>
+        <div class="node"><span class="node-icon">🍓</span><div><div class="node-label">Raspberry Pi 5</div><div class="node-sub">Sensor Aggregation Node</div></div></div>
+        <div class="node"><span class="node-icon">👁️</span><div><div class="node-label">YOLOv11 Inference</div><div class="node-sub">Person Detection · Real-Time</div></div><div class="pulse green"></div></div>
+        <div class="node"><span class="node-icon">🏃</span><div><div class="node-label">MediaPipe Pose</div><div class="node-sub">Drowning Posture Analysis</div></div></div>
+        <div class="node"><span class="node-icon">⚡</span><div><div class="node-label">TensorRT Optimized</div><div class="node-sub">GPU-Accelerated Inference</div></div></div>
+        <div class="node"><span class="node-icon">📦</span><div><div class="node-label">Edge Data Buffer</div><div class="node-sub">Local Storage Failsafe</div></div></div>
+      </div>
+    </div>
+
+    <div class="flow-connector">
+      <div class="flow-line"></div>
+      <div class="flow-arrow"><span class="arrow-down">▼</span> CLOUD SYNC</div>
+      <div class="flow-line"></div>
+    </div>
+
+    <!-- LAYER 5 -->
+    <div class="layer l5">
+      <div class="layer-header">
+        <div class="layer-num">05</div>
+        <div>
+          <div class="layer-title">CLOUD PLATFORM LAYER</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:2px;">Government Cloud · Data Lake · AI Training Platform</div>
+        </div>
+      </div>
+      <div class="layer-body">
+        <div class="node"><span class="node-icon">🏛️</span><div><div class="node-label">Sri Lanka Gov Cloud</div><div class="node-sub">ICTA · Data Sovereignty</div></div><div class="pulse cyan"></div></div>
+        <div class="node"><span class="node-icon">☁️</span><div><div class="node-label">AWS GovCloud</div><div class="node-sub">Primary Compute · S3 · EC2</div></div></div>
+        <div class="node"><span class="node-icon">🌐</span><div><div class="node-label">Azure Public Safety</div><div class="node-sub">Backup Region · Azure AI</div></div></div>
+        <div class="node"><span class="node-icon">🗄️</span><div><div class="node-label">Data Lake</div><div class="node-sub">Incident · Sensor · Video Archive</div></div></div>
+        <div class="node"><span class="node-icon">🤖</span><div><div class="node-label">AI Training Platform</div><div class="node-sub">PyTorch · MLflow · Model Registry</div></div></div>
+        <div class="node"><span class="node-icon">📊</span><div><div class="node-label">Analytics Engine</div><div class="node-sub">Apache Spark · Redshift</div></div></div>
+        <div class="node"><span class="node-icon">🔔</span><div><div class="node-label">Alert Orchestration</div><div class="node-sub">Event Bridge · SNS · Twilio</div></div></div>
+      </div>
+    </div>
+
+    <div class="flow-connector">
+      <div class="flow-line"></div>
+      <div class="flow-arrow"><span class="arrow-down">▼</span> INTERFACE DELIVERY</div>
+      <div class="flow-line"></div>
+    </div>
+
+    <!-- LAYER 6 -->
+    <div class="layer l6">
+      <div class="layer-header">
+        <div class="layer-num">06</div>
+        <div>
+          <div class="layer-title">APPLICATION LAYER</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:2px;">Command Center · Mobile App · Dashboards</div>
+        </div>
+      </div>
+      <div class="layer-body">
+        <div class="node"><span class="node-icon">🗺️</span><div><div class="node-label">National Command Center</div><div class="node-sub">Next.js · Real-Time Dashboard</div></div><div class="pulse cyan"></div></div>
+        <div class="node"><span class="node-icon">📱</span><div><div class="node-label">Citizen Safety App</div><div class="node-sub">Flutter · iOS &amp; Android</div></div></div>
+        <div class="node"><span class="node-icon">🚨</span><div><div class="node-label">Emergency Portal</div><div class="node-sub">First Responder Interface</div></div><div class="pulse green"></div></div>
+        <div class="node"><span class="node-icon">📈</span><div><div class="node-label">Risk Analytics Dashboard</div><div class="node-sub">Predictive Heatmaps</div></div></div>
+        <div class="node"><span class="node-icon">🔧</span><div><div class="node-label">Admin &amp; Ops Panel</div><div class="node-sub">Device Management · OTA</div></div></div>
+        <div class="node"><span class="node-icon">📋</span><div><div class="node-label">Reporting System</div><div class="node-sub">Ministry Reports · Audit Logs</div></div></div>
+      </div>
+    </div>
+
+    <div class="flow-connector">
+      <div class="flow-line"></div>
+      <div class="flow-arrow"><span class="arrow-down">▼</span> DISPATCH</div>
+      <div class="flow-line"></div>
+    </div>
+
+    <!-- LAYER 7 -->
+    <div class="layer l7">
+      <div class="layer-header">
+        <div class="layer-num">07</div>
+        <div>
+          <div class="layer-title">AUTHORITY RESPONSE LAYER</div>
+          <div style="font-size:10px;color:var(--dim);margin-top:2px;">Emergency Dispatch &amp; Government Agencies</div>
+        </div>
+      </div>
+      <div class="layer-body">
+        <div class="node"><span class="node-icon">👮</span><div><div class="node-label">Sri Lanka Police</div><div class="node-sub">119 · Instant Notification</div></div><div class="pulse cyan"></div></div>
+        <div class="node"><span class="node-icon">⚓</span><div><div class="node-label">Sri Lanka Navy</div><div class="node-sub">Coastal Rescue Units</div></div><div class="pulse cyan"></div></div>
+        <div class="node"><span class="node-icon">🚤</span><div><div class="node-label">Coast Guard</div><div class="node-sub">Marine Patrol Vessels</div></div></div>
+        <div class="node"><span class="node-icon">🏥</span><div><div class="node-label">Hospital Network</div><div class="node-sub">Pre-Alert · Trauma Ready</div></div></div>
+        <div class="node"><span class="node-icon">🌀</span><div><div class="node-label">Disaster Management Centre</div><div class="node-sub">NDRSC · DMC Integration</div></div><div class="pulse green"></div></div>
+        <div class="node"><span class="node-icon">🚁</span><div><div class="node-label">Air Rescue (Future)</div><div class="node-sub">SAR Helicopter Dispatch</div></div></div>
+        <div class="node"><span class="node-icon">🏛️</span><div><div class="node-label">Ministry of Digital Economy</div><div class="node-sub">Policy &amp; Oversight</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI ENGINE -->
+  <div>
+    <div class="section-label">◈ AI DETECTION &amp; RISK PREDICTION ENGINES</div>
+    <div class="ai-block">
+      <div class="ai-card">
+        <div class="ai-card-header">👁️ AI DROWNING DETECTION PIPELINE</div>
+        <div class="ai-card-body">
+          <div class="pipeline">
+            <div class="pipe-step"><div class="ps-icon">📷</div><div class="ps-label">Camera<br>Input</div></div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step"><div class="ps-icon">🖼️</div><div class="ps-label">Frame<br>Extract</div></div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step"><div class="ps-icon">🔍</div><div class="ps-label">YOLOv11<br>Detect</div></div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step"><div class="ps-icon">🏃</div><div class="ps-label">Pose<br>Estimate</div></div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step"><div class="ps-icon">📊</div><div class="ps-label">Risk<br>Score</div></div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipe-step" style="border-color:rgba(255,45,85,0.5);background:rgba(255,45,85,0.08)"><div class="ps-icon">🚨</div><div class="ps-label" style="color:var(--danger)">Alert<br>Trigger</div></div>
+          </div>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;justify-content:space-between;font-size:10px;padding:5px 8px;background:rgba(0,0,0,0.3);border-radius:3px;">
+              <span style="color:var(--dim)">PRIMARY MODEL</span><span style="color:var(--glow)">YOLOv11-X + MediaPipe</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;padding:5px 8px;background:rgba(0,0,0,0.3);border-radius:3px;">
+              <span style="color:var(--dim)">INFERENCE SPEED</span><span style="color:var(--glow2)">&lt; 80ms per frame</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;padding:5px 8px;background:rgba(0,0,0,0.3);border-radius:3px;">
+              <span style="color:var(--dim)">DETECTION ACCURACY</span><span style="color:var(--glow2)">94.7% mAP (target)</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;padding:5px 8px;background:rgba(0,0,0,0.3);border-radius:3px;">
+              <span style="color:var(--dim)">HARDWARE</span><span style="color:var(--warn)">NVIDIA Jetson Orin NX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-card">
+        <div class="ai-card-header" style="color:var(--gold)">🌦️ RISK PREDICTION ML PIPELINE</div>
+        <div class="ai-card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+            <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:3px;padding:8px;">
+              <div style="font-size:9px;color:var(--dim);letter-spacing:2px;margin-bottom:6px;">INPUT FEATURES</div>
+              <div style="display:flex;flex-direction:column;gap:4px;font-size:10px;">
+                <span>🌊 Tide Level &amp; Wave Height</span>
+                <span>🌧️ Rainfall Intensity</span>
+                <span>💨 Wind Speed &amp; Direction</span>
+                <span>📅 Historical Incidents</span>
+                <span>👥 Tourism Traffic Data</span>
+                <span>🌡️ Season &amp; Time</span>
+              </div>
+            </div>
+            <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:3px;padding:8px;">
+              <div style="font-size:9px;color:var(--dim);letter-spacing:2px;margin-bottom:6px;">MODEL OUTPUT</div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="background:rgba(255,45,85,0.15);border:1px solid rgba(255,45,85,0.3);border-radius:2px;padding:5px 8px;font-size:10px;color:var(--danger)">🔴 HIGH RISK · Score 8–10</div>
+                <div style="background:rgba(255,107,53,0.15);border:1px solid rgba(255,107,53,0.3);border-radius:2px;padding:5px 8px;font-size:10px;color:var(--warn)">🟠 MEDIUM RISK · Score 5–7</div>
+                <div style="background:rgba(0,255,159,0.15);border:1px solid rgba(0,255,159,0.3);border-radius:2px;padding:5px 8px;font-size:10px;color:var(--glow2)">🟢 LOW RISK · Score 0–4</div>
+                <div style="font-size:9px;color:var(--dim);margin-top:4px;">Model: XGBoost + LSTM Ensemble</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMERGENCY RESPONSE + PCB -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+
+    <!-- EMERGENCY FLOW -->
+    <div>
+      <div class="section-label">◈ EMERGENCY RESPONSE WORKFLOW</div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:18px;">
+        <div class="emer-flow">
+          <div class="emer-step"><div class="es-num">01</div><div><div class="es-label">📷 AI Camera Detects Incident</div><div class="es-sub">Computer Vision · 4K Frame Analysis</div></div></div>
+          <div class="emer-step"><div class="es-num">02</div><div><div class="es-label">🧠 Edge AI Validates Detection</div><div class="es-sub">Jetson Orin · Confidence &gt; 85%</div></div></div>
+          <div class="emer-step warn-step"><div class="es-num">03</div><div><div class="es-label">☁️ Cloud Verification &amp; Logging</div><div class="es-sub">Secondary AI Confirms · Record Incident</div></div></div>
+          <div class="emer-step warn-step"><div class="es-num">04</div><div><div class="es-label">🔔 Multi-Channel Alert Generated</div><div class="es-sub">SMS · Push · Dashboard · API</div></div></div>
+          <div class="emer-step danger-step"><div class="es-num">05</div><div><div class="es-label">🔊 On-Site Siren Activated</div><div class="es-sub">120dB · Strobe · 500m Radius</div></div></div>
+          <div class="emer-step danger-step"><div class="es-num">06</div><div><div class="es-label">👮 Police &amp; Navy Notified</div><div class="es-sub">Auto-Dispatch with GPS Coordinates</div></div></div>
+          <div class="emer-step danger-step"><div class="es-num">07</div><div><div class="es-label">🏥 Hospital Pre-Alert Sent</div><div class="es-sub">Trauma Team on Standby</div></div></div>
+          <div class="emer-step green-step"><div class="es-num">08</div><div><div class="es-label">🚤 Rescue Team Dispatched</div><div class="es-sub">Nearest Unit · ETA Calculated</div></div></div>
+          <div class="emer-step green-step"><div class="es-num">09</div><div><div class="es-label">📋 Incident Report Auto-Generated</div><div class="es-sub">Full Timeline · Evidence Package</div></div></div>
+          <div class="emer-step"><div class="es-num">10</div><div><div class="es-label">✅ Resolution &amp; Case Closed</div><div class="es-sub">Outcome Logged · AI Model Updated</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PCB BOM -->
+    <div>
+      <div class="section-label">◈ SMART SAFETY POLE — PCB &amp; BOM</div>
+      <div class="pcb-card" style="height:100%;">
+        <div class="pcb-header">📋 BILL OF MATERIALS — ESTIMATED UNIT COST</div>
+        <div style="padding:12px;">
+          <table class="bom-table">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Spec</th>
+                <th>Cost (USD)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>ESP32-S3 Module</td><td>Dual Core · 16MB Flash</td><td>$5.50</td></tr>
+              <tr><td>SIM7600 4G Module</td><td>LTE-A · Cat4 · GNSS</td><td>$28.00</td></tr>
+              <tr><td>NEO-M8N GPS</td><td>72-Channel · 10Hz</td><td>$12.00</td></tr>
+              <tr><td>SX1276 LoRa</td><td>915MHz · +20dBm</td><td>$8.00</td></tr>
+              <tr><td>Solar Panel 200W</td><td>Monocrystalline</td><td>$85.00</td></tr>
+              <tr><td>LiFePO4 Battery 100Ah</td><td>12V · Cycle 3000+</td><td>$120.00</td></tr>
+              <tr><td>MPPT Controller 30A</td><td>12/24V Auto</td><td>$35.00</td></tr>
+              <tr><td>NVIDIA Jetson Orin NX</td><td>100 TOPS · 16GB</td><td>$499.00</td></tr>
+              <tr><td>4K AI Camera (×2)</td><td>PTZ · IR 50m</td><td>$180.00</td></tr>
+              <tr><td>Siren + Strobe</td><td>120dB · IP67</td><td>$25.00</td></tr>
+              <tr><td>Environmental Sensors</td><td>Temp/Humidity/Rain</td><td>$40.00</td></tr>
+              <tr><td>Custom PCB (2-layer)</td><td>200×150mm · HASL</td><td>$18.00</td></tr>
+              <tr><td>Pole + Enclosure</td><td>IP66 · Stainless</td><td>$250.00</td></tr>
+              <tr><td><strong>TOTAL PER STATION</strong></td><td></td><td><strong>≈ $1,306</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COST ANALYSIS -->
+  <div>
+    <div class="section-label">◈ NATIONAL ROLLOUT COST ANALYSIS</div>
+    <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>DEPLOYMENT SCOPE</th>
+            <th>STATIONS</th>
+            <th>HARDWARE</th>
+            <th>SOFTWARE</th>
+            <th>TOTAL (USD)</th>
+            <th>TOTAL (LKR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Phase 1 — Pilot (3 beaches)</td>
+            <td>15</td>
+            <td class="money">$19,590</td>
+            <td class="money">$15,000</td>
+            <td class="money">$34,590</td>
+            <td class="money">~11.5M LKR</td>
+          </tr>
+          <tr>
+            <td>Phase 2 — Provincial (3 provinces)</td>
+            <td>120</td>
+            <td class="money">$156,720</td>
+            <td class="money">$80,000</td>
+            <td class="money">$236,720</td>
+            <td class="money">~79M LKR</td>
+          </tr>
+          <tr>
+            <td>Phase 3 — National (All 9 provinces)</td>
+            <td>500+</td>
+            <td class="money">$653,000</td>
+            <td class="money">$250,000</td>
+            <td class="money">$903,000</td>
+            <td class="money">~300M LKR</td>
+          </tr>
+          <tr>
+            <td>Annual Operations &amp; Maintenance</td>
+            <td>—</td>
+            <td class="money">—</td>
+            <td class="money">—</td>
+            <td class="money">$120,000/yr</td>
+            <td class="money">~40M LKR/yr</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TECH STACK -->
+  <div>
+    <div class="section-label">◈ COMPLETE TECHNOLOGY STACK</div>
+    <div class="tech-grid">
+      <div class="tech-item"><div class="t-icon">⚛️</div><div class="t-name">Next.js</div><div class="t-cat">Frontend</div></div>
+      <div class="tech-item"><div class="t-icon">🦁</div><div class="t-name">NestJS</div><div class="t-cat">Backend API</div></div>
+      <div class="tech-item"><div class="t-icon">🐘</div><div class="t-name">PostgreSQL</div><div class="t-cat">Database</div></div>
+      <div class="tech-item"><div class="t-icon">🔥</div><div class="t-name">PyTorch</div><div class="t-cat">AI Training</div></div>
+      <div class="tech-item"><div class="t-icon">👁️</div><div class="t-name">YOLOv11</div><div class="t-cat">Detection</div></div>
+      <div class="tech-item"><div class="t-icon">🤸</div><div class="t-name">MediaPipe</div><div class="t-cat">Pose Estimation</div></div>
+      <div class="tech-item"><div class="t-icon">📱</div><div class="t-name">Flutter</div><div class="t-cat">Mobile App</div></div>
+      <div class="tech-item"><div class="t-icon">📡</div><div class="t-name">MQTT/TLS</div><div class="t-cat">IoT Protocol</div></div>
+      <div class="tech-item"><div class="t-icon">📻</div><div class="t-name">LoRaWAN</div><div class="t-cat">Mesh Network</div></div>
+      <div class="tech-item"><div class="t-icon">☁️</div><div class="t-name">AWS GovCloud</div><div class="t-cat">Cloud Infra</div></div>
+      <div class="tech-item"><div class="t-icon">🔐</div><div class="t-name">Zero Trust</div><div class="t-cat">Security</div></div>
+      <div class="tech-item"><div class="t-icon">📊</div><div class="t-name">Apache Spark</div><div class="t-cat">Analytics</div></div>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div>
+    <div class="section-label">◈ IMPLEMENTATION ROADMAP</div>
+    <div class="roadmap">
+      <div class="phase-card ph1">
+        <div class="phase-header">⚡ PHASE 1 — PILOT</div>
+        <div class="phase-body">
+          <div style="font-size:9px;color:var(--dim);letter-spacing:2px;margin-bottom:8px;">MONTHS 1–6</div>
+          <div class="phase-item"><div class="phase-dot"></div>Negombo Beach Deployment<div class="phase-tag">M1-2</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Kalpitiya Lagoon Stations<div class="phase-tag">M2-3</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Puttalam Coastal Zone<div class="phase-tag">M3-4</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>AI Model Initial Training<div class="phase-tag">M1-4</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Command Center v1 Launch<div class="phase-tag">M4-5</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Pilot Evaluation &amp; Report<div class="phase-tag">M6</div></div>
+        </div>
+      </div>
+      <div class="phase-card ph2">
+        <div class="phase-header">🚀 PHASE 2 — PROVINCIAL</div>
+        <div class="phase-body">
+          <div style="font-size:9px;color:var(--dim);letter-spacing:2px;margin-bottom:8px;">MONTHS 7–18</div>
+          <div class="phase-item"><div class="phase-dot"></div>Western Province Full Cover<div class="phase-tag">M7-9</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Southern Province Deploy<div class="phase-tag">M9-11</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Central Province (Waterfalls)<div class="phase-tag">M11-13</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Citizen App Public Launch<div class="phase-tag">M10</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Police/Navy Integration<div class="phase-tag">M12</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>AI Model v2 Retrain<div class="phase-tag">M14-18</div></div>
+        </div>
+      </div>
+      <div class="phase-card ph3">
+        <div class="phase-header">🌐 PHASE 3 — NATIONAL</div>
+        <div class="phase-body">
+          <div style="font-size:9px;color:var(--dim);letter-spacing:2px;margin-bottom:8px;">MONTHS 19–36</div>
+          <div class="phase-item"><div class="phase-dot"></div>All 9 Provinces Covered<div class="phase-tag">M19-28</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>500+ Stations Active<div class="phase-tag">M24</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Satellite Backup Activated<div class="phase-tag">M22</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Full DMC Integration<div class="phase-tag">M26</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>Tourism Authority API<div class="phase-tag">M28</div></div>
+          <div class="phase-item"><div class="phase-dot"></div>ISO 27001 Certification<div class="phase-tag">M36</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FUNDING -->
+  <div>
+    <div class="section-label">◈ FUNDING STRATEGY</div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;">
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+        <div style="font-size:22px;">🏛️</div>
+        <div style="font-size:10px;color:var(--glow);font-weight:600;margin-top:6px;">Sri Lanka Govt</div>
+        <div style="font-size:9px;color:var(--dim);">ICTA · DMC · MoDE</div>
+      </div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+        <div style="font-size:22px;">🌍</div>
+        <div style="font-size:10px;color:var(--gold);font-weight:600;margin-top:6px;">World Bank</div>
+        <div style="font-size:9px;color:var(--dim);">Disaster Risk Grant</div>
+      </div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+        <div style="font-size:22px;">🏦</div>
+        <div style="font-size:10px;color:var(--glow2);font-weight:600;margin-top:6px;">Asian Dev. Bank</div>
+        <div style="font-size:9px;color:var(--dim);">Smart City Fund</div>
+      </div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+        <div style="font-size:22px;">🇺🇳</div>
+        <div style="font-size:10px;color:var(--warn);font-weight:600;margin-top:6px;">UNDP</div>
+        <div style="font-size:9px;color:var(--dim);">SDG 3 · Safety</div>
+      </div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+        <div style="font-size:22px;">👶</div>
+        <div style="font-size:10px;color:var(--danger);font-weight:600;margin-top:6px;">UNICEF</div>
+        <div style="font-size:9px;color:var(--dim);">Child Safety Focus</div>
+      </div>
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;">
+        <div style="font-size:22px;">🤝</div>
+        <div style="font-size:10px;color:#AA88FF;font-weight:600;margin-top:6px;">PPP / Private</div>
+        <div style="font-size:9px;color:var(--dim);">Tourism · Telecoms</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  CONFIDENTIAL · AI-POWERED NATIONAL WATER SAFETY SYSTEM · GOVERNMENT OF SRI LANKA · PREPARED BY AGENTIXAI LABS
+</div>
+
+</body>
+</html>
